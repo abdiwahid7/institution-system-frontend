@@ -1,67 +1,61 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 /* General styles */
-.container {
-  max-width: 800px;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.container, .manage-container {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 header, footer {
-  background-color: #333;
+  background-color: #007bff;
   color: white;
   text-align: center;
   padding: 1rem 0;
 }
 
-h2 {
-  color: #333;
+header h1, footer p {
+  margin: 0;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+h2 {
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+input[type="text"], input[type="email"], input[type="password"], textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin: 0.5rem 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 button {
-  background-color: #333;
+  background-color: #007bff;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 button:hover {
-  background-color: #555;
+  background-color: #0056b3;
 }
 
 ul {
@@ -70,11 +64,35 @@ ul {
 }
 
 li {
-  background-color: white;
+  background-color: #f9f9f9;
   margin: 0.5rem 0;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+li div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li div a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+li div a:hover {
+  text-decoration: underline;
+}
+
+li div button {
+  background-color: #dc3545;
+  padding: 0.5rem 1rem;
+}
+
+li div button:hover {
+  background-color: #c82333;
 }
 
 /* Header styles */
@@ -92,18 +110,37 @@ header nav ul li {
 header nav ul li a, header nav ul li button {
   color: white;
   text-decoration: none;
-  background: black;
+  background: none;
   border: none;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 header nav ul li button:hover, header nav ul li a:hover {
   text-decoration: underline;
 }
 
+/* Navbar styles */
+header {
+  background-color: #007bff; /* Reverted navbar color to blue */
+}
+
+header nav ul li a, header nav ul li button {
+  color: black;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* header nav ul li button:hover, header nav ul li a:hover {
+  text-decoration: underline;
+} */
+
 /* Footer styles */
 footer {
-  background-color: #333;
+  background-color: #007bff;
   color: white;
   text-align: center;
   padding: 1rem 0;
@@ -111,10 +148,11 @@ footer {
 
 /* Form styles */
 form {
-  background-color: white;
+  background-color: #fff;
   padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form div {
@@ -124,24 +162,82 @@ form div {
 form label {
   display: block;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
-form input[type="text"], form input[type="email"], form input[type="password"] {
+form input[type="text"], form input[type="email"], form input[type="password"], form textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 form button {
-  background-color: #333;
+  background-color: #007bff;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 form button:hover {
-  background-color: #555;
+  background-color: #0056b3;
+}
+
+/* Manage Assignments and Students styles */
+.manage-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.assignment-list, .student-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.assignment-item, .student-item {
+  background-color: #f9f9f9;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-assignment-form, .search-form {
+  background-color: #fff;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.edit-assignment-form input[type="text"], .edit-assignment-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.edit-assignment-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.edit-assignment-form button:hover {
+  background-color: #0056b3;
 }

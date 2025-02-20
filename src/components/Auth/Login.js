@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/assignments');
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       alert('Login failed. Please check your credentials.');

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AssignmentContext } from '../context/AssignmentContext';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { assignments, getAssignments, searchAssignments } = useContext(AssignmentContext);
@@ -35,32 +36,6 @@ const Dashboard = () => {
     }
   };
 
-  const handleDeleteAssignment = async (id) => {
-    try {
-      await axios.delete(`http://localhost:4001/api/assignments/${id}`, {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
-      getAssignments(token);
-    } catch (err) {
-      console.error('Error deleting assignment:', err);
-    }
-  };
-
-  const handleDeleteUser = async (id) => {
-    try {
-      await axios.delete(`http://localhost:4001/api/users/${id}`, {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
-      handleStudentSearch();
-    } catch (err) {
-      console.error('Error deleting user:', err);
-    }
-  };
-
   if (!user) {
     return <div>Loading...</div>; // Show a loading message while user data is being fetched
   }
@@ -84,9 +59,6 @@ const Dashboard = () => {
               <strong>{assignment.title}</strong>
               <p>{assignment.description}</p>
               <a href={`http://localhost:4001/uploads/${assignment.file}`} target="_blank" rel="noopener noreferrer">Open File</a>
-              {user.role === 'admin' && (
-                <button onClick={() => handleDeleteAssignment(assignment._id)}>Delete</button>
-              )}
             </div>
           </li>
         ))}
@@ -107,10 +79,12 @@ const Dashboard = () => {
             {students.map((student) => (
               <li key={student._id}>
                 {student.name}
-                <button onClick={() => handleDeleteUser(student._id)}>Delete</button>
               </li>
             ))}
           </ul>
+          <Link to="/manage">
+            <button>Manage Assignments and Students</button>
+          </Link>
         </>
       )}
     </div>

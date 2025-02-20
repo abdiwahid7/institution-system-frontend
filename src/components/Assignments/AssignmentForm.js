@@ -8,15 +8,37 @@ const AssignmentForm = () => {
   const [file, setFile] = useState(null);
   const [isForAllUsers, setIsForAllUsers] = useState(false);
   const [specificStudents, setSpecificStudents] = useState('');
-  const { createAssignment } = useContext(AssignmentContext);
+  const [isUploading, setIsUploading] = useState(false);
+  const { createAssignment, uploadProgress, uploadError } = useContext(AssignmentContext);
   const { token } = useContext(AuthContext);
 
+  const validFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip'];
+  const maxFileSize = 10 * 1024 * 1024; // 10MB
+
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    
+    if (!validFileTypes.includes(selectedFile.type)) {
+      alert('Invalid file type. Please upload PDF, DOCX, or ZIP files only.');
+      return;
+    }
+
+    if (selectedFile.size > maxFileSize) {
+      alert('File size exceeds 10MB limit. Please choose a smaller file.');
+      return;
+    }
+
+    setFile(selectedFile);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!file) {
+      alert('Please select a file to upload.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -27,15 +49,18 @@ const AssignmentForm = () => {
     }
 
     try {
+      setIsUploading(true);
       await createAssignment(formData, token);
+      alert('Assignment uploaded successfully!');
       setTitle('');
       setDescription('');
       setFile(null);
       setIsForAllUsers(false);
       setSpecificStudents('');
     } catch (err) {
-      console.error(err);
-      alert('Failed to create assignment. Please try again.');
+      alert(uploadError || 'Failed to upload assignment. Please try again.');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -43,18 +68,24 @@ const AssignmentForm = () => {
     <div className="container">
       <form onSubmit={handleSubmit}>
         <h2>Create Assignment</h2>
+        {uploadError && <div className="error">{uploadError}</div>}
+        
         <div>
           <label>Title:</label>
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
         </div>
+        
         <div>
           <label>Description:</label>
           <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
+        
         <div>
-          <label>File:</label>
+          <label>File (PDF, DOCX, ZIP - max 10MB):</label>
           <input type="file" onChange={handleFileChange} required />
+          {file && <div className="file-info">Selected file: {file.name}</div>}
         </div>
+        
         <div>
           <label>
             <input
@@ -65,6 +96,7 @@ const AssignmentForm = () => {
             For All Users
           </label>
         </div>
+        
         <div>
           <label>Specific Students (comma separated IDs):</label>
           <input
@@ -74,7 +106,10 @@ const AssignmentForm = () => {
             disabled={isForAllUsers}
           />
         </div>
-        <button type="submit">Create</button>
+        
+        <button type="submit" disabled={isUploading}>
+          {isUploading ? `Uploading... ${uploadProgress}%` : 'Create'}
+        </button>
       </form>
     </div>
   );
